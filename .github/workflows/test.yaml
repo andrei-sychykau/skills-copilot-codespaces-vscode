@@ -1,3 +1,5 @@
+name: populate_matrix_from_json
+
 on: workflow_dispatch
 
 jobs:
