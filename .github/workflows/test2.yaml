@@ -13,8 +13,8 @@ jobs:
     - name: Setup
       id: setup
       env:
-        CONFIG: '[{"shard_name":"hot_only","grep":"(?=.*@hot\\\\b)","grep_invert":"(?=.*@cold\b)","test_count":174},{"shard_name":"cold_only","grep":"(?=.*@cold\\\\b)","grep_invert":"(?=.*@hot\b)","test_count":174},{"shard_name":"other_tags","grep":"","grep_invert":"(?=.*(@hot\b|@cold\b))","test_count":124}]'
-      run: echo "matrix={\"include\":$CONFIG}" >> $GITHUB_OUTPUT
+        CONFIG: '[{"shard_name":"hot_only","grep":"(?=.*@hot\b)","grep_invert":"(?=.*@cold\b)","test_count":174},{"shard_name":"cold_only","grep":"(?=.*@cold\b)","grep_invert":"(?=.*@hot\b)","test_count":174},{"shard_name":"other_tags","grep":"","grep_invert":"(?=.*(@hot\b|@cold\b))","test_count":124}]'
+      run: echo 'matrix={\"include\":$CONFIG}' >> $GITHUB_OUTPUT
     
     - name: Check
       run: jq . <<< '${{ steps.setup.outputs.matrix }}'
