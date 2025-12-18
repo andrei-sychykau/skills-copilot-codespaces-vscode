@@ -30,7 +30,7 @@ jobs:
     steps:
     - name: Check
       env:
-        MATRIX: ${{ toJSON(matrix) }}
+        MATRIX: ${{ matrix }}
         SHARD: ${{ fromJSON(toJSON(matrix)).shard_name }}
         GREP: ${{ matrix.grep }}
       run: |
