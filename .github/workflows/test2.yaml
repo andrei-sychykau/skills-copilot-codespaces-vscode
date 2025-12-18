@@ -13,7 +13,7 @@ jobs:
     - name: Setup
       id: setup
       env:
-        CONFIG: '[{"shard_name":"hot_only","grep":"(?=.*@hot\b)","grep_invert":"(?=.*@cold\b)","test_count":174},{"shard_name":"cold_only","grep":"(?=.*@cold\b)","grep_invert":"(?=.*@hot\b)","test_count":174},{"shard_name":"other_tags","grep":"","grep_invert":"(?=.*(@hot\b|@cold\b))","test_count":124}]'
+        CONFIG: '[{"shard_name":"hot_only","grep":"(?=.*@hot\\\\b)","grep_invert":"(?=.*@cold\b)","test_count":174},{"shard_name":"cold_only","grep":"(?=.*@cold\\\\b)","grep_invert":"(?=.*@hot\b)","test_count":174},{"shard_name":"other_tags","grep":"","grep_invert":"(?=.*(@hot\b|@cold\b))","test_count":124}]'
       run: echo "matrix={\"include\":$CONFIG}" >> $GITHUB_OUTPUT
     
     - name: Check
@@ -33,12 +33,10 @@ jobs:
         MATRIX: ${{ toJSON(matrix) }}
         SHARD: ${{ fromJSON(toJSON(matrix)).shard_name }}
         GREP: ${{ matrix.grep }}
-        GREP2: ${{ fromJSON(toJSON(matrix)).grep }}
-        GREP3: ${{ toJSON(matrix).grep }}
+        GREPINVERT: ${{ matrix.grep_invert }}
         
       run: |
         echo "MATRIX: [$MATRIX]"
         echo "SHARD: [$SHARD]"
         echo "GREP: [$GREP]"
-        echo "GREP2: [$GREP2]"
-        echo "GREP3: [$GREP3]"
+        echo "GREPINVERT: [$GREPINVERT]"
