@@ -34,10 +34,9 @@ jobs:
         SHARD: ${{ fromJSON(toJSON(matrix)).shard_name }}
         GREP: ${{ matrix.grep }}
         GREP2: ${{ fromJSON(toJSON(matrix)).grep }}
-        GREP3: ${{ fromJSON(matrix).grep }}
+        
       run: |
         echo "MATRIX: [$MATRIX]"
         echo "SHARD: [$SHARD]"
         echo "GREP: [$GREP]"
         echo "GREP2: [$GREP2]"
-        echo "GREP3: [$GREP3]"
