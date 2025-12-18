@@ -1,0 +1,39 @@
+name: populate_matrix_from_json2
+
+on: workflow_dispatch
+
+jobs:
+  step1:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.setup.outputs.matrix }}
+
+    steps:
+    - name: Setup
+      id: setup
+      env:
+        CONFIG: '[{"shard_name":"hot_only","grep":"(?=.*@hot\b)","grep_invert":"(?=.*@cold\b)","test_count":174},{"shard_name":"cold_only","grep":"(?=.*@cold\b)","grep_invert":"(?=.*@hot\b)","test_count":174},{"shard_name":"other_tags","grep":"","grep_invert":"(?=.*(@hot\b|@cold\b))","test_count":124}]'
+      run: echo "matrix=$(jq -r -c . <<< {\"include\":$CONFIG})" >> $GITHUB_OUTPUT
+    
+    - name: Check
+      run: jq . <<< '${{ steps.setup.outputs.matrix }}'
+
+  step2:
+    needs: step1
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: ${{ fromJSON(needs.step1.outputs.matrix) }}
+
+    steps:
+    - name: Check
+      env:
+        MATRIX: ${{ toJSON(matrix) }}
+        SHARD: ${{ fromJSON(toJSON(matrix)).shard_name }}
+        GREP: ${{ matrix.grep }}
+      run: |
+        echo "MATRIX: [$MATRIX]"
+        echo "SHARD: [$SHARD]"
+        echo "GREP: [$GREP]"
