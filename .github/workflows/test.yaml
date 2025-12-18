@@ -62,4 +62,5 @@ jobs:
         echo "MATRIX: $(jq -r -c '.' <<< "$MATRIX")"
         echo "PROJECT: [$PROJECT]"
         echo "CONFIG: [$CONFIG]"
+        echo "CONFIG2: $(jq -r -c '.' <<< "$CONFIG")"
         echo "NESTED: [$NESTED]"
