@@ -56,7 +56,7 @@ jobs:
       env:
         MATRIX: ${{ toJSON(matrix) }}
         PROJECT: ${{ fromJSON(toJSON(matrix)).project }}
-        CONFIG: ${{ fromJSON(toJSON(matrix)).config }}
+        CONFIG: ${{ matrix.config }}
         NESTED: ${{ join(fromJSON(toJSON(matrix)).nested.*.val, ', ') }}
       run: |
         echo "MATRIX: $(jq -r -c '.' <<< "$MATRIX")"
